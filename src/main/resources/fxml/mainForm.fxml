@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainFormController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.blf.controllers.MainFormController">
    <children>
       <SplitPane fx:id="mainPane" dividerPositions="0.3" layoutX="163.0" layoutY="87.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -25,7 +24,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                            <children>
-                              <TextField fx:id="rootDir" text="/home/blf" minWidth="-Infinity" promptText="где будем искать?" HBox.hgrow="ALWAYS">
+                              <TextField fx:id="rootDir" minWidth="-Infinity" promptText="где будем искать?" text="/home/blf" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets right="1.0" />
                                  </HBox.margin>
@@ -37,7 +36,7 @@
                               </Button>
                            </children>
                         </HBox>
-                        <TreeView fx:id="filesTreeView" VBox.vgrow="ALWAYS">
+                        <TreeView fx:id="filesTreeView" onMouseClicked="#treeViewOnMouseClick" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets bottom="3.0" left="3.0" right="3.0" />
                            </VBox.margin>
@@ -58,7 +57,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                            <children>
-                              <TextField fx:id="searchPhrase" text="java" promptText="что будем искать?" HBox.hgrow="ALWAYS">
+                              <TextField fx:id="searchPhrase" promptText="что будем искать?" text="java" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets right="3.0" />
                                  </HBox.margin>
@@ -71,7 +70,7 @@
                               <Button mnemonicParsing="false" onAction="#processSearching" text="Найти" />
                            </children>
                         </HBox>
-                        <TextArea VBox.vgrow="ALWAYS">
+                        <TextArea fx:id="fileContentArea" editable="false" wrapText="true" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets bottom="3.0" left="3.0" right="3.0" />
                            </VBox.margin>

@@ -1,6 +1,11 @@
-import fileUtils.FileSearcher;
+package me.blf.controllers;
+
+import me.blf.model.PathRepresentation;
+import me.blf.services.FileSearcher;
+import me.blf.services.FileViewer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -17,6 +22,8 @@ import java.util.List;
 import java.util.Stack;
 
 public class MainFormController {
+    private final String fileImagePath = "images/file.png";
+    private final String folderImagePath = "images/folder.png";
     private Stage primaryStage;
 
     public void setPrimaryStage(Stage primaryStage) {
@@ -34,6 +41,17 @@ public class MainFormController {
 
     @FXML
     private TreeView<PathRepresentation> filesTreeView;
+
+    @FXML
+    private TextArea fileContentArea;
+
+    @FXML
+    private void treeViewOnMouseClick(){
+        var clickedItem = filesTreeView.getSelectionModel().getSelectedItem();
+        clickedItem.setExpanded(!clickedItem.isExpanded());
+        if(clickedItem.isLeaf())
+            fileContentArea.setText(FileViewer.getFileText(clickedItem.getValue().getPath()));
+    }
 
     @FXML
     private void processSearching(ActionEvent event) {
@@ -59,7 +77,7 @@ public class MainFormController {
     }
 
     private void populateFilesTreeView(List<Path> pathLst, Path rootPath) {
-        TreeItem<PathRepresentation> root = new TreeItem<>(new PathRepresentation(rootPath, true), new ImageView(new Image(ClassLoader.getSystemResourceAsStream("images/folder.png"))));
+        TreeItem<PathRepresentation> root = new TreeItem<>(new PathRepresentation(rootPath, true), new ImageView(new Image(ClassLoader.getSystemResourceAsStream(folderImagePath))));
         for (Path path : pathLst) {
             insertFileToTree(path, root);
         }
@@ -90,12 +108,12 @@ public class MainFormController {
         }
         //if target folder does not exist in the tree, add it to the tree
         while (!pathStack.isEmpty()) {
-            var newRoot = new TreeItem<>(new PathRepresentation(pathStack.pop()),new ImageView(new Image(ClassLoader.getSystemResourceAsStream("images/folder.png"))));
+            var newRoot = new TreeItem<>(new PathRepresentation(pathStack.pop()),new ImageView(new Image(ClassLoader.getSystemResourceAsStream(folderImagePath))));
             root.getChildren().add(newRoot);
             root = newRoot;
         }
 
         //finally add file to its proper folder
-        root.getChildren().add(new TreeItem<>(new PathRepresentation(path),new ImageView(new Image(ClassLoader.getSystemResourceAsStream("images/file.png")))));
+        root.getChildren().add(new TreeItem<>(new PathRepresentation(path),new ImageView(new Image(ClassLoader.getSystemResourceAsStream(fileImagePath)))));
     }
 }
